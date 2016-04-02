@@ -1,28 +1,32 @@
 import Handlebars from 'libs/handlebars';
 
 
-const getPageData = new Promise(function(resolve, reject) {
-  var request = new XMLHttpRequest();
-  request.open('GET', 'http://cms-api.dev/pages/28', true);
-  request.setRequestHeader("Authorization", "jy2sYnxxHt5xVvNn8wHX");
+function getPageData(source) {
+  let page_id = source.dataset.airPage,
+      api_url = window.API_ROOT + 'pages/' + page_id;
 
-  request.onload = function() {
-    if (request.status >= 200 && request.status < 400) {
-      resolve(JSON.parse(request.responseText));
-    } else {
-      reject(err);
-    }
-  };
-  request.onerror = function() {
-    reject()
-  };
+  return new Promise(function(resolve, reject) {
+    var request = new XMLHttpRequest();
+    request.open('GET', api_url, true);
+    request.setRequestHeader("Authorization", window.auth_token);
 
-  request.send();
-});
+    request.onload = function() {
+      if (request.status >= 200 && request.status < 400) {
+        resolve(JSON.parse(request.responseText));
+      } else {
+        reject(err);
+      }
+    };
+    request.onerror = function() {
+      reject()
+    };
 
-function prepareAndRenderPage(context) {
-  let source = document.getElementById("entry-template"),
-      template = Handlebars.compile(source.innerHTML),
+    request.send();
+  });
+}
+
+function prepareAndRenderPage(source, context) {
+  var template = Handlebars.compile(source.innerHTML),
       html = template(context);
 
   renderPage(source, html);
@@ -33,8 +37,10 @@ function renderPage(source, html) {
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
-  getPageData.then(function(resp) {
-    prepareAndRenderPage(resp);
+  let source = document.getElementById("entry-template");
+
+  getPageData(source).then(function(resp) {
+    prepareAndRenderPage(source, resp);
   }, function() {
     debugger
   })
