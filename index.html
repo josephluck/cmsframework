@@ -4,7 +4,13 @@
 </head>
 <body>
 	<div>
-		<div id="entry-template" data-air-page="29">
+		<div data-pages>
+			{{#each pages}}
+				<strong>{{title}} | </strong>
+			{{/each}}
+		</div>
+
+		<div data-page="29">
 		  <div class="entry">
 		    <h1>{{title}}</h1>
 		    <div class="body">
@@ -13,7 +19,7 @@
 		  </div>
 		</div>
 
-		<div id="entry-template" data-air-page="31">
+		<div data-page="31">
 		  <div class="entry">
 		    <h1>{{title}}</h1>
 		    <div class="body">
@@ -22,7 +28,7 @@
 		  </div>
 		</div>
 
-		<div id="entry-template" data-air-page="32">
+		<div data-page="32">
 		  <div class="entry">
 		    <h1>{{title}}</h1>
 		    <div class="body">
@@ -34,16 +40,16 @@
 
 
 	<style>
-		[data-air-page] {
+		[data-page],
+		[data-pages] {
 		  visibility: hidden;
 		}
 	</style>
-
 	<script>
 		window.auth_token = "jy2sYnxxHt5xVvNn8wHX";
 		window.API_ROOT = "http://cms-api.dev/";
 	</script>
-
   <script src="/static/bundle.js"></script>
+
 </body>
 </html>

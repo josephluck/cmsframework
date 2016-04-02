@@ -1,9 +1,10 @@
 import Handlebars from 'libs/handlebars';
 
-function getPageData(source) {
-  let page_id = source.dataset.airPage,
-      api_url = window.API_ROOT + 'pages/' + page_id;
+/* ======================================================
+  Utils
+====================================================== */
 
+function getData(api_url) {
   return new Promise(function(resolve, reject) {
     var request = new XMLHttpRequest();
     request.open('GET', api_url, true);
@@ -24,23 +25,59 @@ function getPageData(source) {
   });
 }
 
-function renderPage(source, context) {
-  var template = Handlebars.compile(source.innerHTML),
-      html = template(context);
+/* ======================================================
+  Render pages lists
+====================================================== */
+function renderAllPagesElms() {
+  let pages_elms = document.querySelectorAll("[data-pages]");
 
-  source.innerHTML = html;
-}
+  for (let i = 0, x = pages_elms.length; i < x; i++) {
+    let pages_elm = pages_elms[i],
+        api_url = window.API_ROOT + 'pages';
 
-document.addEventListener("DOMContentLoaded", function(event) {
-  let sources = document.querySelectorAll("#entry-template");
+    getData(api_url).then(function(context) {
+      context.pages = context;
 
-  for (let i = 0, x = sources.length; i < x; i++) {
-    let source = sources[i];
-    getPageData(source).then(function(resp) {
-      renderPage(source, resp);
-      source.style.visibility = "visible";
+      var template = Handlebars.compile(pages_elm.innerHTML),
+          html = template(context);
+
+      pages_elm.innerHTML = html;
+      pages_elm.style.visibility = "visible";
     }, function() {
       console.warn('Show an API error here');
     })
   }
+}
+
+
+/* ======================================================
+  Render page elements
+====================================================== */
+function renderAllPageElms() {
+  let page_elms = document.querySelectorAll("[data-page]");
+
+  for (let i = 0, x = page_elms.length; i < x; i++) {
+    let page_elm = page_elms[i],
+        page_id = page_elm.dataset.page,
+        api_url = window.API_ROOT + 'pages/' + page_id;
+
+    getData(api_url).then(function(context) {
+      var template = Handlebars.compile(page_elm.innerHTML),
+          html = template(context);
+
+      page_elm.innerHTML = html;
+      page_elm.style.visibility = "visible";
+    }, function() {
+      console.warn('Show an API error here');
+    })
+  }
+}
+
+/* ======================================================
+  Render all elements on the page
+====================================================== */
+
+document.addEventListener("DOMContentLoaded", function(event) {
+  renderAllPagesElms()
+  renderAllPageElms();
 });
