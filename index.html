@@ -6,33 +6,39 @@
 	<div>
 		<div data-pages>
 			{{#each pages}}
-				<strong>{{title}} | </strong>
+				<strong>{{title}}</strong>
+				{{#unless @last}}
+					<span> | </span>
+				{{/unless}}
 			{{/each}}
 		</div>
 
-		<div data-page="29">
+		<div data-page="1">
 		  <div class="entry">
 		    <h1>{{title}}</h1>
-		    <div class="body">
-		      {{body}}
+		    <hr />
+		    <div>
+		      {{#each sections}}
+		      	{{#each items}}
+		      		{{#each fields}}
+		      			{{{content.content}}}
+		      		{{/each}}
+		      	{{/each}}
+		      {{/each}}
 		    </div>
 		  </div>
 		</div>
 
-		<div data-page="31">
+		<div data-section="2">
 		  <div class="entry">
 		    <h1>{{title}}</h1>
-		    <div class="body">
-		      {{body}}
-		    </div>
-		  </div>
-		</div>
-
-		<div data-page="32">
-		  <div class="entry">
-		    <h1>{{title}}</h1>
-		    <div class="body">
-		      {{body}}
+		    <hr />
+		    <div>
+	      	{{#each items}}
+	      		{{#each fields}}
+	      			{{{content.content}}}
+	      		{{/each}}
+	      	{{/each}}
 		    </div>
 		  </div>
 		</div>
@@ -46,7 +52,7 @@
 		}
 	</style>
 	<script>
-		window.auth_token = "jy2sYnxxHt5xVvNn8wHX";
+		window.auth_token = "RKyxZBxTD_dHF6zzwCCK";
 		window.API_ROOT = "http://cms-api.dev/";
 	</script>
   <script src="/static/bundle.js"></script>

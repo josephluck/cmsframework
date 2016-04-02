@@ -3,7 +3,6 @@ import Handlebars from 'libs/handlebars';
 /* ======================================================
   Utils
 ====================================================== */
-
 function getData(api_url) {
   return new Promise(function(resolve, reject) {
     var request = new XMLHttpRequest();
@@ -14,7 +13,7 @@ function getData(api_url) {
       if (request.status >= 200 && request.status < 400) {
         resolve(JSON.parse(request.responseText));
       } else {
-        reject(err);
+        reject();
       }
     };
     request.onerror = function() {
@@ -44,7 +43,7 @@ function renderAllPagesElms() {
       pages_elm.innerHTML = html;
       pages_elm.style.visibility = "visible";
     }, function() {
-      console.warn('Show an API error here');
+      console.warn('Something went wrong');
     })
   }
 }
@@ -68,7 +67,31 @@ function renderAllPageElms() {
       page_elm.innerHTML = html;
       page_elm.style.visibility = "visible";
     }, function() {
-      console.warn('Show an API error here');
+      console.warn('Something went wrong');
+    })
+  }
+}
+
+
+/* ======================================================
+  Render section elements
+====================================================== */
+function renderAllSectionElms() {
+  let section_elms = document.querySelectorAll("[data-section]");
+
+  for (let i = 0, x = section_elms.length; i < x; i++) {
+    let section_elm = section_elms[i],
+        section_id = section_elm.dataset.section,
+        api_url = window.API_ROOT + 'sections/' + section_id;
+
+    getData(api_url).then(function(context) {
+      var template = Handlebars.compile(section_elm.innerHTML),
+          html = template(context);
+
+      section_elm.innerHTML = html;
+      section_elm.style.visibility = "visible";
+    }, function() {
+      console.warn('Something went wrong');
     })
   }
 }
@@ -80,4 +103,5 @@ function renderAllPageElms() {
 document.addEventListener("DOMContentLoaded", function(event) {
   renderAllPagesElms()
   renderAllPageElms();
+  renderAllSectionElms();
 });
