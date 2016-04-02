@@ -32,7 +32,7 @@ function renderAllPagesElms() {
 
   for (let i = 0, x = pages_elms.length; i < x; i++) {
     let pages_elm = pages_elms[i],
-        api_url = window.API_ROOT + 'pages';
+        api_url = `${window.API_ROOT}sites/${window.site_id}/pages`;
 
     getData(api_url).then(function(context) {
       context.pages = context;
