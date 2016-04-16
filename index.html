@@ -1,9 +1,10 @@
 <html>
 <head>
-    <title>Framework test</title>
+    <title>Joseph Luck</title>
 </head>
 <body>
 	<div>
+		<!-- Nav -->
 		<div data-pages>
 			{{#each pages}}
 				<strong>{{title}}</strong>
@@ -13,26 +14,28 @@
 			{{/each}}
 		</div>
 
+		<!-- Page -->
 		<div data-page="1">
 		  <div class="entry">
 		    <h1>{{title}}</h1>
-		    <hr />
 		    <div>
 		      {{#each sections}}
-		      	{{#each items}}
-		      		{{#each fields}}
-		      			{{{content.content}}}
-		      		{{/each}}
-		      	{{/each}}
+		      	<div style="padding: 10px; border: solid 1px">
+			      	{{#each items}}
+			      		{{#each fields}}
+			      			{{{content.content}}}
+			      		{{/each}}
+			      	{{/each}}
+			      </div>
 		      {{/each}}
 		    </div>
 		  </div>
 		</div>
 
+		<!-- Section -->
 		<div data-section="2">
 		  <div class="entry">
 		    <h1>{{title}}</h1>
-		    <hr />
 		    <div>
 	      	{{#each items}}
 	      		{{#each fields}}
@@ -45,9 +48,17 @@
 	</div>
 
 
+
+
+
+
+
+
+
 	<style>
 		[data-page],
-		[data-pages] {
+		[data-pages],
+		[data-section] {
 		  visibility: hidden;
 		}
 	</style>
@@ -57,6 +68,5 @@
 		window.API_ROOT = "http://cms-api.dev/";
 	</script>
   <script src="/static/bundle.js"></script>
-
 </body>
 </html>
