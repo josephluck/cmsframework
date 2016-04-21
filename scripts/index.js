@@ -1,28 +1,6 @@
 import Handlebars from 'libs/handlebars';
+import * as Utils from 'utils';
 
-/* ======================================================
-  Utils
-====================================================== */
-function getData(api_url) {
-  return new Promise(function(resolve, reject) {
-    var request = new XMLHttpRequest();
-    request.open('GET', api_url, true);
-    request.setRequestHeader("Authorization", window.auth_token);
-
-    request.onload = function() {
-      if (request.status >= 200 && request.status < 400) {
-        resolve(JSON.parse(request.responseText));
-      } else {
-        reject();
-      }
-    };
-    request.onerror = function() {
-      reject()
-    };
-
-    request.send();
-  });
-}
 
 /* ======================================================
   Render pages lists
@@ -34,7 +12,7 @@ function renderAllPagesElms() {
     let pages_elm = pages_elms[i],
         api_url = `${window.API_ROOT}sites/${window.site_id}/pages`;
 
-    getData(api_url).then(function(context) {
+    Utils.getData(api_url).then(function(context) {
       context.pages = context;
 
       var template = Handlebars.compile(pages_elm.innerHTML),
@@ -42,8 +20,6 @@ function renderAllPagesElms() {
 
       pages_elm.innerHTML = html;
       pages_elm.style.visibility = "visible";
-    }, function() {
-      console.warn('Something went wrong');
     })
   }
 }
@@ -60,14 +36,12 @@ function renderAllPageElms() {
         page_id = page_elm.dataset.page,
         api_url = window.API_ROOT + 'pages/' + page_id;
 
-    getData(api_url).then(function(context) {
+    Utils.getData(api_url).then(function(context) {
       var template = Handlebars.compile(page_elm.innerHTML),
           html = template(context);
 
       page_elm.innerHTML = html;
       page_elm.style.visibility = "visible";
-    }, function() {
-      console.warn('Something went wrong');
     })
   }
 }
@@ -84,14 +58,12 @@ function renderAllSectionElms() {
         section_id = section_elm.dataset.section,
         api_url = window.API_ROOT + 'sections/' + section_id;
 
-    getData(api_url).then(function(context) {
+    Utils.getData(api_url).then(function(context) {
       var template = Handlebars.compile(section_elm.innerHTML),
           html = template(context);
 
       section_elm.innerHTML = html;
       section_elm.style.visibility = "visible";
-    }, function() {
-      console.warn('Something went wrong');
     })
   }
 }
@@ -99,9 +71,15 @@ function renderAllSectionElms() {
 /* ======================================================
   Render all elements on the page
 ====================================================== */
-
-document.addEventListener("DOMContentLoaded", function(event) {
+function render() {
   renderAllPagesElms()
   renderAllPageElms();
   renderAllSectionElms();
+}
+
+/* ======================================================
+  When the document is loaded
+====================================================== */
+document.addEventListener("DOMContentLoaded", function(event) {
+  render();
 });

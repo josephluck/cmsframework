@@ -1,59 +1,32 @@
 <html>
 <head>
-    <title>Joseph Luck</title>
+  <title>Joseph Luck</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link href='https://fonts.googleapis.com/css?family=Vollkorn:400,700,400italic' rel='stylesheet' type='text/css'>
 </head>
 <body>
-	<div>
-		<!-- Nav -->
-		<div data-pages>
-			{{#each pages}}
-				<strong>{{title}}</strong>
-				{{#unless @last}}
-					<span> | </span>
-				{{/unless}}
+	<div data-section="8">
+  	{{#each items}}
+  		<h1>{{{title}}}</h1>
+  		{{#each fields}}
+  			{{{content.content}}}
+  		{{/each}}
+  	{{/each}}
+  </div>
+
+  <br />
+
+	<div data-section="10">
+  	{{#each items}}
+  		<h3>
+  			{{{title}}}
+  		</h3>
+			{{#each fields}}
+				{{{content.content}}}
 			{{/each}}
-		</div>
-
-		<!-- Page -->
-		<div data-page="1">
-		  <div class="entry">
-		    <h1>{{title}}</h1>
-		    <div>
-		      {{#each sections}}
-		      	<div style="padding: 10px; border: solid 1px">
-			      	{{#each items}}
-			      		{{#each fields}}
-			      			{{{content.content}}}
-			      		{{/each}}
-			      	{{/each}}
-			      </div>
-		      {{/each}}
-		    </div>
-		  </div>
-		</div>
-
-		<!-- Section -->
-		<div data-section="2">
-		  <div class="entry">
-		    <h1>{{title}}</h1>
-		    <div>
-	      	{{#each items}}
-	      		{{#each fields}}
-	      			{{{content.content}}}
-	      		{{/each}}
-	      	{{/each}}
-		    </div>
-		  </div>
-		</div>
-	</div>
-
-
-
-
-
-
-
-
+			<br />
+  	{{/each}}
+  </div>
 
 	<style>
 		[data-page],
@@ -63,10 +36,10 @@
 		}
 	</style>
 	<script>
-		window.site_id = "1";
-		window.auth_token = "RKyxZBxTD_dHF6zzwCCK";
+		window.site_id = "5";
+		window.auth_token = "ZEshQpkPG4smDnU8vsV6";
 		window.API_ROOT = "http://cms-api.dev/";
 	</script>
-  <script src="/static/bundle.js"></script>
+  <script src="static/bundle.js"></script>
 </body>
 </html>
